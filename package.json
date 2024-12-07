@@ -1,0 +1,91 @@
+{
+  "name": "auto-chae",
+  "displayName": "auto_chae",
+  "description": "Automatically completes require statements for specific modules in Elixir code",
+  "version": "0.0.1",
+  "publisher": "taiyo",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "os": [
+    "win32"
+  ],
+  "arch": [
+    "x64"
+  ],
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/.env*",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onCommand:extension.auto-chae"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.auto-chae",
+        "title": "Auto Requires"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.auto-chae",
+        "key": "ctrl+alt+a",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "auto-chae.enableLogging": {
+          "type": "bool",
+          "default": false
+        },
+        "auto-chae.majorRegexPattern": {
+          "type": "string",
+          "default": "(Cms\\.[\\w]+)\\.(rec|match|match_object|match_delete|match_limit|select|select_replace|select_delete|select_limit|select_count)\\(",
+          "description": "Cms.OOO 에서 자동으로 모듈을 추출할 regex 패턴"
+        },
+        "auto-chae.minorRegexPattern": {
+          "type": "string",
+          "default": "([.\\w]+)\\.(packet!|msg|rec|send)\\(",
+          "description": "후 순위로 자동으로 모듈을 추출할 regex 패턴"
+        },
+        "auto-chae.requireScopePattern": {
+          "type": "string",
+          "default": "([ \\t]*)# >{1,} auto([\\s\\S]*?)# <{1,} auto",
+          "description": "자동 주입할 require 영역 regex 패턴"
+        },
+        "auto-chae.excludeModules": {
+          "type": "array",
+          "default": [
+            "SessionDirectory"
+          ],
+          "description": "자동 require 모듈에서 제외할 모듈 목록"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
